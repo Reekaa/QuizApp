@@ -109,7 +109,6 @@ object QuizApp extends App {
   // each of these functions accepts user input if required for an operation,
   // invokes the relevant operation function and displays the results
   def showAllQuestionsWithAnswers(data: Map[String, List[(String, Int)]]) = {
-    println(data)
     data foreach {
       case (k, v) =>  {
         println(s"\nQuestion: $k \nAnswers:")
@@ -149,19 +148,19 @@ object QuizApp extends App {
   }
 
   def getMostPopularAnswer(data: Map[String, List[(String, Int)]]) = {
-    val subject = "Music"
-    val regex: Regex = subject.r
-    val specificSubjectList = data.collect {
-      case (key, value) if regex.findFirstMatchIn(key).nonEmpty => (key, value)
-    }
+    val specificSubjectList = filterListForMusicSubject(data)
     val listOfAnswers = specificSubjectList.flatMap(_._2).toList
     val popularAnswer = mostPopulerAswer(listOfAnswers)
-    println(s"Most popular answer in Music category: $popularAnswer")
+    println(s"Most popular answer in Music category is: $popularAnswer")
   }
 
   def setQuestionInDescendingOrder(data: Map[String, List[(String, Int)]]) = {
-
-// not sure how to do it yet
+    val filteredQuestions = data.collect {
+      case (key, value) if value.filter(answers => (answers._2 == 0)).length >= 2 => (key, value)
+//      case (key, value) => println(value.filter(answers => (answers._2 == 0)).length)
+    }
+    println(filteredQuestions)
+    // need to sort it
 
   }
   // OPERATION FUNCTIONS
